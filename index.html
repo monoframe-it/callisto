@@ -1,241 +1,206 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, Check, ShoppingBag } from 'lucide-react';
-import {
-  Checkerboard,
-  CornerBracket,
-  WireframeGlobe,
-} from './components/CustomIcons';
-import { ImageRevealBackground } from './components/ImageRevealBackground';
-import { SideDrawer } from './components/SideDrawer';
-import {
-  type CartItem,
-  type CatalogItem,
-  type DrawerTab,
-} from './data/catalog';
-
-export default function App() {
-  const [activeDrawer, setActiveDrawer] = useState<DrawerTab>(null);
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const toastTimerRef = useRef<number | null>(null);
-
-  const showToast = useCallback((message: string) => {
-    setToastMessage(message);
-    if (toastTimerRef.current !== null) {
-      window.clearTimeout(toastTimerRef.current);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CALLISTO — Beyond The Future</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pad-x: clamp(1.5rem, 4vw, 4rem);
+      --pad-y: clamp(1.5rem, 4vh, 3rem);
+      --header-pt: clamp(1.25rem, 3vh, 2.25rem);
+      --section-gap: clamp(1rem, 2.5vh, 2rem);
+      --logo: clamp(1.25rem, 2vw, 1.75rem);
+      --logo-deg: clamp(0.75rem, 1vw, 1rem);
+      --nav: clamp(0.7rem, 0.85vw, 0.85rem);
+      --gap-nav: clamp(1rem, 2.5vw, 2.5rem);
+      --headline: clamp(2.5rem, 5.5vw, 5.25rem);
+      --body: clamp(0.7rem, 0.85vw, 0.85rem);
+      --btn-px: clamp(1.25rem, 2vw, 2rem);
+      --btn-py: clamp(0.75rem, 1.2vh, 1rem);
+      --btn-gap: 0.75rem;
+      --icon: 1.15rem;
+      --feature-min: clamp(220px, 22vw, 300px);
+      --feature-pad: clamp(1.25rem, 2vw, 1.75rem);
     }
-    toastTimerRef.current = window.setTimeout(() => {
-      setToastMessage(null);
-      toastTimerRef.current = null;
-    }, 3000);
-  }, []);
 
-  useEffect(() => {
-    return () => {
-      if (toastTimerRef.current !== null) {
-        window.clearTimeout(toastTimerRef.current);
-      }
-    };
-  }, []);
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      color: #000000;
+      overflow: hidden;
+    }
 
-  const handleAddToCart = useCallback(
-    (item: CatalogItem) => {
-      const cartItem: CartItem = {
-        ...item,
-        cartItemId: `${item.id}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-      };
-      setCart((prev) => [...prev, cartItem]);
-      showToast(`Added "${item.title}" to your shopping bag.`);
-    },
-    [showToast]
-  );
+    .font-orbitron {
+      font-family: 'Orbitron', sans-serif;
+    }
 
-  const handleRemoveFromCart = useCallback((cartItemId: string) => {
-    setCart((prev) => prev.filter((item) => item.cartItemId !== cartItemId));
-  }, []);
+    /* Նկարի շերտեր և Hover էֆեկտ */
+    .hero-bg-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
 
-  const handleCheckout = useCallback(() => {
-    setCart([]);
-    setActiveDrawer(null);
-    showToast('Order submitted successfully!');
-  }, [showToast]);
+    .hero-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      transition: opacity 0.45s ease-in-out, transform 0.6s ease;
+    }
 
-  return (
-    <div className="min-h-screen bg-white text-black font-jakarta flex flex-col relative overflow-hidden">
-      <header
-        className="relative z-20 flex items-center justify-between bg-white"
-        style={{
-          paddingInline: 'var(--pad-x)',
-          paddingTop: 'var(--header-pt)',
-          paddingBottom: 'var(--section-gap)',
-        }}
-      >
-        <button
-          type="button"
-          onClick={() => setActiveDrawer(null)}
-          className="inline-flex items-start font-orbitron font-black tracking-[0.15em] text-black hover:opacity-80 transition-opacity cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-black"
-          style={{ fontSize: 'var(--logo)' }}
-        >
-          <span>CALLISTO</span>
-          <span
-            className="-mt-0.5 ml-0.5 leading-none"
-            style={{ fontSize: 'var(--logo-deg)' }}
-          >
-            ˚
-          </span>
-        </button>
+    .hero-bg-img.hover-img {
+      opacity: 0;
+    }
 
-        <nav
-          className="flex items-center font-jakarta font-medium uppercase tracking-[0.2em]"
-          style={{ fontSize: 'var(--nav)', gap: 'var(--gap-nav)' }}
-          aria-label="Primary Navigation"
-        >
-          <button
-            type="button"
-            onClick={() => setActiveDrawer('shop')}
-            className="hover:opacity-50 transition-opacity cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-black"
-          >
-            SHOP
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveDrawer('collections')}
-            className="hover:opacity-50 transition-opacity cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-black"
-          >
-            COLLECTIONS
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveDrawer('journal')}
-            className="hover:opacity-50 transition-opacity cursor-pointer whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-black"
-          >
-            JOURNAL
-          </button>
-          <span className="text-gray-300 select-none" aria-hidden="true">
-            |
-          </span>
-          <button
-            type="button"
-            onClick={() => setActiveDrawer('cart')}
-            aria-label={`Shopping Bag (${cart.length} items)`}
-            className="relative inline-flex items-center justify-center hover:opacity-50 transition-opacity cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-black"
-          >
-            <ShoppingBag
-              strokeWidth={1.5}
-              style={{ width: 'var(--icon)', height: 'var(--icon)' }}
-            />
-            {cart.length > 0 && (
-              <span className="absolute -top-1.5 -right-2 min-w-4 h-4 px-1 rounded-full bg-black text-white text-[10px] font-semibold flex items-center justify-center leading-none tabular-nums">
-                {cart.length}
-              </span>
-            )}
-          </button>
-        </nav>
-      </header>
+    .hero-bg-container:hover .hero-bg-img.hover-img {
+      opacity: 1;
+    }
 
-      <main
-        className="flex-1 w-full flex flex-col overflow-hidden"
-        style={{ position: 'relative' }}
-      >
-        <ImageRevealBackground />
+    /* Անկյունային փակագծեր (Corner Brackets) */
+    .bracket {
+      width: 12px;
+      height: 12px;
+      border-color: #000000;
+      border-style: solid;
+      pointer-events: none;
+    }
+    .bracket-tl { border-width: 1.5px 0 0 1.5px; }
+    .bracket-tr { border-width: 1.5px 1.5px 0 0; }
+    .bracket-bl { border-width: 0 0 1.5px 1.5px; }
+    .bracket-br { border-width: 0 1.5px 1.5px 0; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col relative">
 
-        <div
-          className="flex flex-col items-start"
-          style={{
-            position: 'absolute',
-            zIndex: 10,
-            top: 'clamp(1.5rem, 11vh, 6.5rem)',
-            left: 'var(--pad-x)',
-            pointerEvents: 'none',
-          }}
-        >
-          <CornerBracket variant="tl" />
+  <!-- Վերևի նավիգացիա (Header) -->
+  <header
+    class="relative z-20 flex items-center justify-between bg-white"
+    style="padding-inline: var(--pad-x); padding-top: var(--header-pt); padding-bottom: var(--section-gap);"
+  >
+    <button
+      type="button"
+      class="inline-flex items-start font-orbitron font-black tracking-[0.15em] text-black hover:opacity-80 transition-opacity cursor-pointer whitespace-nowrap"
+      style="font-size: var(--logo);"
+    >
+      <span>CALLISTO</span>
+      <span class="-mt-0.5 ml-0.5 leading-none" style="font-size: var(--logo-deg);">˚</span>
+    </button>
 
-          <h1
-            className="font-orbitron font-extrabold uppercase tracking-[0.08em] leading-[1.05] text-black my-4"
-            style={{ fontSize: 'var(--headline)' }}
-          >
-            <span className="block">BEYOND</span>
-            <span className="block">THE</span>
-            <span className="flex items-center gap-[0.35em]">
-              <span>FUTURE</span>
-              <Checkerboard />
-            </span>
-          </h1>
+    <nav
+      class="flex items-center font-medium uppercase tracking-[0.2em]"
+      style="font-size: var(--nav); gap: var(--gap-nav);"
+    >
+      <a href="#shop" class="hover:opacity-50 transition-opacity">SHOP</a>
+      <a href="#collections" class="hover:opacity-50 transition-opacity">COLLECTIONS</a>
+      <a href="#journal" class="hover:opacity-50 transition-opacity">JOURNAL</a>
+      <span class="text-gray-300 select-none">|</span>
+      <button type="button" aria-label="Shopping Bag" class="hover:opacity-50 transition-opacity cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+      </button>
+    </nav>
+  </header>
 
-          <CornerBracket variant="bl" />
-
-          <button
-            type="button"
-            onClick={() => setActiveDrawer('shop')}
-            className="group inline-flex items-center bg-white/80 backdrop-blur-[2px] border border-gray-400 rounded-md uppercase font-medium tracking-[0.18em] text-black hover:bg-black hover:text-white hover:border-black transition-colors duration-200 cursor-pointer whitespace-nowrap focus-visible:outline-2 focus-visible:outline-black"
-            style={{
-              pointerEvents: 'auto',
-              marginTop: 'var(--section-gap)',
-              fontSize: 'var(--body)',
-              paddingInline: 'var(--btn-px)',
-              paddingBlock: 'var(--btn-py)',
-              gap: 'var(--btn-gap)',
-            }}
-          >
-            <span>SHOP NOW</span>
-            <ArrowUpRight
-              strokeWidth={1.5}
-              className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              style={{ width: 'var(--icon)', height: 'var(--icon)' }}
-            />
-          </button>
-        </div>
-
-        <div
-          className="bg-white/75 backdrop-blur-[2px]"
-          style={{
-            position: 'absolute',
-            zIndex: 10,
-            bottom: 'var(--pad-y)',
-            right: 'var(--pad-x)',
-            minWidth: 'var(--feature-min)',
-            padding: 'var(--feature-pad)',
-            pointerEvents: 'none',
-          }}
-        >
-          <CornerBracket variant="tl" className="absolute top-0 left-0" />
-          <CornerBracket variant="tr" className="absolute top-0 right-0" />
-          <CornerBracket variant="bl" className="absolute bottom-0 left-0" />
-          <CornerBracket variant="br" className="absolute bottom-0 right-0" />
-
-          <WireframeGlobe />
-
-          <div
-            className="mt-4 font-jakarta font-semibold uppercase tracking-[0.18em] leading-[1.5] text-black"
-            style={{ fontSize: 'var(--body)' }}
-          >
-            <div>BEYOND TRENDS.</div>
-            <div>BUILT FOR TOMORROW.</div>
-          </div>
-        </div>
-      </main>
-
-      <SideDrawer
-        activeDrawer={activeDrawer}
-        onClose={() => setActiveDrawer(null)}
-        cart={cart}
-        onAddToCart={handleAddToCart}
-        onRemoveFromCart={handleRemoveFromCart}
-        onCheckout={handleCheckout}
+  <!-- Հիմնական Hero բաժին -->
+  <main class="flex-1 w-full relative overflow-hidden">
+    
+    <!-- Ֆոնային նկարներ (Այստեղ տեղադրիր քո 2 նկարների հղումները/անունները) -->
+    <div class="hero-bg-container">
+      <!-- Հիմնական նկար (1) -->
+      <img 
+        src="robot-1.jpg" 
+        alt="Futuristic Fashion Model" 
+        class="hero-bg-img base-img"
       />
-
-      {toastMessage && (
-        <div
-          role="status"
-          aria-live="polite"
-          className="fixed top-5 right-5 z-[60] bg-black text-white px-4 py-3 flex items-center gap-2.5 shadow-lg max-w-sm"
-          style={{ fontSize: 'var(--body)' }}
-        >
-          <Check strokeWidth={2} className="w-4 h-4 text-emerald-400 shrink-0" />
-          <span>{toastMessage}</span>
-        </div>
-      )}
+      <!-- Hover-ի ժամանակ հայտնվող նկար (2) -->
+      <img 
+        src="robot-2.jpg" 
+        alt="Futuristic Fashion Model Pose 2" 
+        class="hero-bg-img hover-img"
+      />
     </div>
-  );
-}
+
+    <!-- Ձախ վերևի տեքստային բլոկ -->
+    <div
+      class="flex flex-col items-start"
+      style="position: absolute; z-index: 10; top: clamp(1.5rem, 11vh, 6.5rem); left: var(--pad-x); pointer-events: none;"
+    >
+      <div class="bracket bracket-tl"></div>
+
+      <h1
+        class="font-orbitron font-extrabold uppercase tracking-[0.08em] leading-[1.05] text-black my-4"
+        style="font-size: var(--headline);"
+      >
+        <span class="block">BEYOND</span>
+        <span class="block">THE</span>
+        <span class="flex items-center gap-[0.35em]">
+          <span>FUTURE</span>
+          <!-- Փոքր պիքսելային պատկերակ -->
+          <svg width="36" height="24" viewBox="0 0 36 24" fill="black" class="inline-block shrink-0">
+            <rect x="0" y="0" width="6" height="4"/><rect x="8" y="0" width="6" height="4"/><rect x="16" y="0" width="6" height="4"/><rect x="24" y="0" width="6" height="4"/>
+            <rect x="4" y="6" width="6" height="4"/><rect x="12" y="6" width="6" height="4"/><rect x="20" y="6" width="6" height="4"/><rect x="28" y="6" width="6" height="4"/>
+            <rect x="0" y="12" width="6" height="4"/><rect x="8" y="12" width="6" height="4"/><rect x="16" y="12" width="6" height="4"/><rect x="24" y="12" width="6" height="4"/>
+            <rect x="4" y="18" width="6" height="4"/><rect x="12" y="18" width="6" height="4"/><rect x="20" y="18" width="6" height="4"/><rect x="28" y="18" width="6" height="4"/>
+          </svg>
+        </span>
+      </h1>
+
+      <div class="bracket bracket-bl"></div>
+
+      <button
+        type="button"
+        onclick="alert('Opening CALLISTO Shop...')"
+        class="group inline-flex items-center bg-white/85 backdrop-blur-sm border border-gray-400 rounded-md uppercase font-medium tracking-[0.18em] text-black hover:bg-black hover:text-white hover:border-black transition-colors duration-200 cursor-pointer whitespace-nowrap"
+        style="pointer-events: auto; margin-top: var(--section-gap); font-size: var(--body); padding-inline: var(--btn-px); padding-block: var(--btn-py); gap: var(--btn-gap);"
+      >
+        <span>SHOP NOW</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+          <path d="M7 7h10v10"/><path d="M7 17 17 7"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Աջ ներքևի քարտ -->
+    <div
+      class="bg-white/80 backdrop-blur-sm"
+      style="position: absolute; z-index: 10; bottom: var(--pad-y); right: var(--pad-x); min-width: var(--feature-min); padding: var(--feature-pad); pointer-events: none;"
+    >
+      <div class="bracket bracket-tl absolute top-0 left-0"></div>
+      <div class="bracket bracket-tr absolute top-0 right-0"></div>
+      <div class="bracket bracket-bl absolute bottom-0 left-0"></div>
+      <div class="bracket bracket-br absolute bottom-0 right-0"></div>
+
+      <!-- Գլոբուսի պատկերակ -->
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.2">
+        <circle cx="12" cy="12" r="10"/>
+        <ellipse cx="12" cy="12" rx="4" ry="10"/>
+        <path d="M2 12h20"/>
+        <path d="M4.5 7h15"/>
+        <path d="M4.5 17h15"/>
+      </svg>
+
+      <div
+        class="mt-4 font-semibold uppercase tracking-[0.18em] leading-[1.5] text-black"
+        style="font-size: var(--body);"
+      >
+        <div>BEYOND TRENDS.</div>
+        <div>BUILT FOR TOMORROW.</div>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>
