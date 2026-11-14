@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b0a09;
+  --color-charcoal: #161412;
+  --color-ivory: #f3eee6;
+  --color-gold: #c6a15b;
+  --color-gold-soft: #e4d2a8;
+  --color-muted: #a3988c;
+  --font-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: "Outfit", "Segoe UI", sans-serif;
+}
+
+:root {
+  --pad-x: clamp(1.25rem, 4.5vw, 5rem);
+  --pad-y: clamp(1rem, 3vh, 4rem);
+  --header-pt: clamp(1.15rem, 2.2vh, 1.85rem);
+  --gap-nav: clamp(1rem, 2.2vw, 2.25rem);
+  --logo: clamp(1.35rem, 1vw + 0.85rem, 1.85rem);
+  --nav: clamp(0.62rem, 0.3vw + 0.48rem, 0.78rem);
+  --headline: clamp(3.1rem, 6.2vw + 0.6rem, 7.25rem);
+  --body: clamp(0.7rem, 0.35vw + 0.55rem, 0.9rem);
+  --micro: clamp(0.55rem, 0.25vw + 0.45rem, 0.7rem);
+  --btn-px: clamp(1.15rem, 1.4vw, 1.75rem);
+  --btn-py: clamp(0.6rem, 0.9vh, 0.85rem);
+  --btn-gap: clamp(0.75rem, 1vw, 1.1rem);
+  --feature-pad: clamp(1rem, 1.5vw, 1.75rem);
+  --feature-min: clamp(13rem, 18vw, 20rem);
+  --globe: clamp(2.25rem, 2.5vw + 1rem, 3.25rem);
+  --checker-w: clamp(1.55rem, 2vw, 2.4rem);
+  --checker-h: clamp(0.78rem, 1vw, 1.2rem);
+  --corner: clamp(0.65rem, 0.4vw + 0.4rem, 0.95rem);
+  --icon: clamp(1rem, 0.6vw + 0.7rem, 1.35rem);
+  --drawer-pad: clamp(1.25rem, 2.5vw, 2.25rem);
+  --drawer-max: clamp(18rem, 28vw, 28rem);
+  --section-gap: clamp(0.75rem, 1.5vh, 1.5rem);
+  --main-py: clamp(1.25rem, 4vh, 4rem);
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-ivory);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-gold);
+  color: var(--color-ink);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
