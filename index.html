@@ -17,7 +17,6 @@
   --text: #0a0a0c;
   --muted: #5a5a65;
   --line: #e2e2e6;
-  --accent: #0055ff;
   --pad-x: clamp(1.5rem, 4vw, 4rem);
 }
 
@@ -262,7 +261,7 @@ h2 {
   gap: 20px;
 }
 
-/* SHOP / COLLECTIONS GRID */
+/* PRODUCTS GRID */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -315,7 +314,7 @@ h2 {
 .price { font-size: 16px; font-weight: 700; }
 .product-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
 
-/* FULL BANNER */
+/* EDITORIAL BANNER */
 .editorial-banner {
   position: relative;
   height: 480px;
@@ -337,7 +336,7 @@ h2 {
 }
 .editorial-content { position: relative; z-index: 2; padding: 24px; max-width: 720px; }
 
-/* PHILOSOPHY / ABOUT */
+/* ABOUT */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -448,7 +447,6 @@ h2 {
   font-size: 13px;
 }
 
-/* RESPONSIVE */
 @media (max-width: 960px) {
   .products-grid { grid-template-columns: repeat(2, 1fr); }
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -485,13 +483,13 @@ h2 {
 
 <main>
 
-  <!-- HERO WITH HOVER ROBOT ANIMATION -->
+  <!-- HERO SECTION -->
   <section id="home" class="hero">
-    <div class="hero-bg-container" title="Hover to reveal alternate pose">
-      <!-- ՀԻՄՆԱԿԱՆ ՆԿԱՐ -->
-      <img src="robot-1.jpg" alt="Callisto Futuristic Fashion" class="hero-bg-img base-img">
-      <!-- HOVER ՆԿԱՐ (ՁԵՌՔԵՐԻ ՓՈՓՈԽՈՒԹՅԱՄԲ) -->
-      <img src="robot-2.jpg" alt="Callisto Futuristic Fashion Pose 2" class="hero-bg-img hover-img">
+    <div class="hero-bg-container">
+      <!-- ԲԱԶԱՅԻՆ ՆԿԱՐ -->
+      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1600&q=85" alt="Callisto Futuristic Fashion" class="hero-bg-img base-img">
+      <!-- HOVER ՆԿԱՐ -->
+      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1600&q=85" alt="Callisto Futuristic Fashion Pose 2" class="hero-bg-img hover-img">
     </div>
 
     <div class="hero-left">
@@ -647,7 +645,7 @@ h2 {
   </div>
 </footer>
 
-<!-- SHOPPING BAG DRAWER -->
+<!-- CART DRAWER -->
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 <aside class="drawer" id="cartDrawer">
   <div class="drawer-header">
@@ -802,7 +800,6 @@ document.getElementById("contactForm").addEventListener("submit", e => {
   e.target.reset();
 });
 
-// Scroll Reveal
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
