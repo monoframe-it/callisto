@@ -3,815 +3,169 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#ffffff">
 <title>CALLISTO˚ | Beyond The Future</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #ffffff;
-  --panel: #f5f5f7;
-  --dark: #0a0a0c;
-  --text: #0a0a0c;
-  --muted: #5a5a65;
-  --line: #e2e2e6;
-  --pad-x: clamp(1.5rem, 4vw, 4rem);
-}
-
+:root { --bg: #fff; --text: #0a0a0c; --muted: #5a5a65; --line: #e2e2e6; --pad: clamp(1.5rem, 4vw, 4rem); }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: "Plus Jakarta Sans", sans-serif;
-  overflow-x: hidden;
-}
-button, input, textarea { font: inherit; }
-button { cursor: pointer; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
 a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
-
 .container { width: min(1320px, calc(100% - 48px)); margin: auto; }
-.section { padding: 110px 0; }
-.panel-section { background: var(--panel); }
+.section { padding: 100px 0; }
 
-.eyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0 0 16px;
-}
+header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; padding: 20px var(--pad); border-bottom: 1px solid #eee; }
+.brand { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 24px; letter-spacing: 0.15em; }
+.brand span { font-size: 13px; }
+.nav-wrap { display: flex; align-items: center; gap: 30px; }
+nav a { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
+nav a:hover { opacity: 0.5; }
+.bag-btn { background: none; border: 0; position: relative; cursor: pointer; display: flex; align-items: center; }
+.bag-count { position: absolute; top: -4px; right: -8px; background: #000; color: #fff; font-size: 9px; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
-h1, h2, h3, .brand, .price {
-  font-family: "Orbitron", sans-serif;
-  text-transform: uppercase;
-}
-h1, h2, h3, p { margin-top: 0; }
-h2 {
-  font-size: clamp(32px, 4.5vw, 60px);
-  line-height: 1.08;
-  letter-spacing: 0.04em;
-  font-weight: 800;
-  margin-bottom: 20px;
-}
+/* HERO HOVER ANIMATION */
+.hero { position: relative; height: calc(100vh - 80px); min-height: 620px; background: #e9ebef; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: opacity 0.45s ease-in-out; }
+.hero-bg.hover-img { opacity: 0; }
+.hero:hover .hero-bg.hover-img { opacity: 1; }
 
-.lead {
-  max-width: 560px;
-  color: var(--muted);
-  line-height: 1.8;
-  font-size: 15px;
-}
-
-/* BUTTONS */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-height: 48px;
-  padding: 14px 26px;
-  border: 1px solid var(--text);
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  border-radius: 4px;
-  transition: all 0.25s ease;
-}
-.btn-dark { background: var(--dark); color: #fff; }
-.btn-dark:hover { background: #26262e; transform: translateY(-2px); }
-.btn-glass {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(6px);
-  border-color: #999;
-  color: var(--dark);
-}
-.btn-glass:hover {
-  background: var(--dark);
-  color: #fff;
-  border-color: var(--dark);
-}
-.btn-full { width: 100%; }
-
-/* REVEAL ANIMATION */
-.reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.7s ease, transform 0.7s ease; }
-.reveal.visible { opacity: 1; transform: none; }
-
-/* HEADER */
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--line);
-}
-.header-inner {
-  height: 78px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-inline: var(--pad-x);
-}
-.brand {
-  font-size: clamp(20px, 2vw, 26px);
-  font-weight: 900;
-  letter-spacing: 0.16em;
-  display: inline-flex;
-  align-items: flex-start;
-}
-.brand span { font-size: 13px; margin-left: 2px; line-height: 1; }
-.nav { display: flex; align-items: center; gap: clamp(18px, 2.5vw, 36px); }
-.nav a {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  transition: opacity 0.2s;
-}
-.nav a:hover { opacity: 0.5; }
-.bag-btn {
-  background: none;
-  border: 0;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  padding: 6px;
-}
-.bag-count {
-  position: absolute;
-  top: -2px;
-  right: -6px;
-  background: var(--dark);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  min-width: 17px;
-  height: 17px;
-  border-radius: 99px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* HERO SECTION WITH HOVER ANIMATION */
-.hero {
-  position: relative;
-  height: calc(100vh - 78px);
-  min-height: 640px;
-  max-height: 980px;
-  width: 100%;
-  overflow: hidden;
-  background: #e9ebef;
-}
-.hero-bg-container {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-.hero-bg-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 18%;
-  transition: opacity 0.45s ease-in-out, transform 0.8s ease;
-}
-.hero-bg-img.hover-img { opacity: 0; }
-.hero-bg-container:hover .hero-bg-img.hover-img { opacity: 1; }
-.hero-bg-container:hover .hero-bg-img.base-img { transform: scale(1.015); }
-
-/* CORNER BRACKETS */
-.bracket {
-  width: 12px;
-  height: 12px;
-  border-color: #000;
-  border-style: solid;
-}
-.b-tl { border-width: 1.5px 0 0 1.5px; }
-.b-tr { border-width: 1.5px 1.5px 0 0; }
-.b-bl { border-width: 0 0 1.5px 1.5px; }
-.b-br { border-width: 0 1.5px 1.5px 0; }
-
-/* HERO OVERLAY CONTENT */
-.hero-left {
-  position: absolute;
-  z-index: 10;
-  top: clamp(2rem, 11vh, 6rem);
-  left: var(--pad-x);
-  pointer-events: none;
-}
-.hero-title {
-  font-size: clamp(2.6rem, 5.6vw, 5.4rem);
-  font-weight: 800;
-  line-height: 1.04;
-  letter-spacing: 0.08em;
-  margin: 16px 0;
-  color: #000;
-}
-.hero-title span { display: block; }
-.hero-title-row { display: flex; align-items: center; gap: 0.35em; }
-.hero-left .btn { pointer-events: auto; margin-top: 24px; }
-
-.hero-right-card {
-  position: absolute;
-  z-index: 10;
-  bottom: clamp(1.5rem, 4vh, 3rem);
-  right: var(--pad-x);
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(6px);
-  padding: 24px;
-  min-width: 250px;
-  pointer-events: none;
-}
-.hero-right-card .bracket { position: absolute; }
-.hero-right-card .b-tl { top: 0; left: 0; }
-.hero-right-card .b-tr { top: 0; right: 0; }
-.hero-right-card .b-bl { bottom: 0; left: 0; }
-.hero-right-card .b-br { bottom: 0; right: 0; }
-.hero-card-text {
-  margin-top: 14px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  line-height: 1.6;
-}
-
-/* TICKER STRIP */
-.strip {
-  background: var(--dark);
-  color: #fff;
-  padding: 18px 0;
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-}
-.strip-inner {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+.hero-content { position: absolute; z-index: 10; top: 12vh; left: var(--pad); pointer-events: none; }
+h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 5.5vw, 5rem); font-weight: 900; line-height: 1.05; letter-spacing: 0.08em; margin: 15px 0; }
+h1 span { display: block; }
+.btn { display: inline-flex; pointer-events: auto; align-items: center; justify-content: center; padding: 14px 28px; background: rgba(255,255,255,0.85); border: 1px solid #888; color: #000; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; backdrop-filter: blur(5px); transition: 0.2s; cursor: pointer; }
+.btn:hover { background: #000; color: #fff; border-color: #000; }
+.btn-dark { background: #0a0a0c; color: #fff; width: 100%; }
+.btn-dark:hover { background: #222; }
 
 /* PRODUCTS GRID */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 26px;
-  margin-top: 48px;
-}
-.product-card {
-  border: 1px solid var(--line);
-  background: #fff;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.06);
-}
-.product-img-wrap {
-  height: 360px;
-  position: relative;
-  overflow: hidden;
-  background: #f0f0f2;
-}
-.product-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-}
-.product-card:hover .product-img-wrap img { transform: scale(1.05); }
-.tag-badge {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  background: var(--dark);
-  color: #fff;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  padding: 6px 10px;
-  text-transform: uppercase;
-}
+.products-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; margin-top: 40px; }
+.product-card { border: 1px solid var(--line); background: #fff; transition: transform 0.3s; }
+.product-card:hover { transform: translateY(-5px); }
+.product-img-wrap { height: 340px; position: relative; overflow: hidden; background: #f0f0f2; }
+.product-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+.product-card:hover .product-img-wrap img { transform: scale(1.04); }
+.tag-badge { position: absolute; top: 14px; left: 14px; background: #0a0a0c; color: #fff; font-size: 9px; font-weight: 700; padding: 6px 10px; text-transform: uppercase; }
 .product-info { padding: 22px; }
-.product-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-.product-top h3 { font-size: 16px; font-weight: 700; margin: 0; letter-spacing: 0.05em; }
-.price { font-size: 16px; font-weight: 700; }
-.product-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
-
-/* EDITORIAL BANNER */
-.editorial-banner {
-  position: relative;
-  height: 480px;
-  background: var(--dark);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  overflow: hidden;
-}
-.editorial-banner img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.38;
-}
-.editorial-content { position: relative; z-index: 2; padding: 24px; max-width: 720px; }
-
-/* ABOUT */
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 72px;
-  align-items: center;
-}
-.about-img {
-  height: 540px;
-  position: relative;
-  overflow: hidden;
-}
-.about-img img { width: 100%; height: 100%; object-fit: cover; }
-.stamp {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background: #fff;
-  padding: 18px 22px;
-  border: 1px solid #000;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-}
-.stamp strong { display: block; font-family: "Orbitron"; font-size: 22px; margin-bottom: 4px; }
-
-/* CONTACT & FOOTER */
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 72px;
-}
-.field-group { margin-bottom: 18px; }
-.field-group label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
-.field {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #ccc;
-  background: #fff;
-  font-size: 14px;
-  outline: none;
-}
-.field:focus { border-color: #000; }
-
-.footer {
-  background: var(--dark);
-  color: #fff;
-  padding: 72px 0 28px;
-}
-.footer-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  gap: 56px;
-  padding-bottom: 48px;
-  border-bottom: 1px solid rgba(255,255,255,0.12);
-}
-.footer p { color: #a0a0ab; font-size: 13px; line-height: 1.8; }
-.footer h4 { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px; color: #fff; }
-.footer-links { display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: #a0a0ab; }
-.footer-links a:hover { color: #fff; }
-.footer-bottom {
-  padding-top: 24px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 14px;
-  font-size: 11px;
-  color: #888;
-}
+.product-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.product-top h3 { font-family: 'Orbitron', sans-serif; font-size: 15px; margin: 0; }
+.price { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 700; }
+.product-desc { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.6; }
 
 /* CART DRAWER */
-.drawer-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 200;
-  display: none;
-}
+.drawer-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; }
 .drawer-backdrop.open { display: block; }
-.drawer {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(420px, 100%);
-  background: #fff;
-  z-index: 210;
-  padding: 28px;
-  display: flex;
-  flex-direction: column;
-  transform: translateX(100%);
-  transition: transform 0.35s ease;
-}
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(400px, 100%); background: #fff; z-index: 210; padding: 28px; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s ease; }
 .drawer.open { transform: translateX(0); }
-.drawer-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--line);
-}
+.drawer-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid var(--line); font-family: 'Orbitron', sans-serif; }
 .drawer-items { flex: 1; overflow-y: auto; padding: 20px 0; }
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 13px;
-}
+.cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
 
-@media (max-width: 960px) {
-  .products-grid { grid-template-columns: repeat(2, 1fr); }
-  .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
-}
-@media (max-width: 640px) {
-  .products-grid { grid-template-columns: 1fr; }
-  .hero-right-card { display: none; }
-  .nav a { display: none; }
-}
+@media(max-width:850px) { .products-grid { grid-template-columns: 1fr; } .nav-wrap nav a { display: none; } }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="header">
-  <div class="header-inner">
-    <a href="#home" class="brand">CALLISTO<span>˚</span></a>
-    <nav class="nav">
+<header>
+  <a href="#home" class="brand">CALLISTO<span>˚</span></a>
+  <div class="nav-wrap">
+    <nav>
       <a href="#shop">Shop</a>
       <a href="#collections">Collections</a>
-      <a href="#philosophy">Journal</a>
       <a href="#contact">Contact</a>
-      <span style="color:#ddd">|</span>
-      <button type="button" class="bag-btn" id="openBagBtn" aria-label="Shopping Bag">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
-        <span class="bag-count" id="bagCount">0</span>
-      </button>
     </nav>
+    <button type="button" class="bag-btn" id="openBagBtn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="bag-count" id="bagCount">0</span>
+    </button>
   </div>
 </header>
 
 <main>
-
-  <!-- HERO SECTION WITH HOVER ANIMATION -->
+  <!-- HERO SECTION WITH HOVER ROBOT ANIMATION -->
   <section id="home" class="hero">
-    <div class="hero-bg-container">
-      <!-- ԲԱԶԱՅԻՆ ՆԿԱՐ -->
-      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1600&q=85" alt="Callisto Futuristic Fashion" class="hero-bg-img base-img">
-      <!-- HOVER ՆԿԱՐ (ԱՆԻՄԱՑԻԱՅՈՎ) -->
-      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1600&q=85" alt="Callisto Futuristic Fashion Pose 2" class="hero-bg-img hover-img">
-    </div>
+    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1600&q=85" alt="Robot Base" class="hero-bg base-img">
+    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1600&q=85" alt="Robot Hover" class="hero-bg hover-img">
 
-    <div class="hero-left">
-      <div class="bracket b-tl"></div>
-      <h1 class="hero-title">
+    <div class="hero-content">
+      <p style="font-size:11px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Future Forward Fashion</p>
+      <h1>
         <span>BEYOND</span>
         <span>THE</span>
-        <div class="hero-title-row">
-          <span>FUTURE</span>
-          <svg width="38" height="24" viewBox="0 0 36 24" fill="black">
-            <rect x="0" y="0" width="6" height="4"/><rect x="8" y="0" width="6" height="4"/><rect x="16" y="0" width="6" height="4"/><rect x="24" y="0" width="6" height="4"/>
-            <rect x="4" y="6" width="6" height="4"/><rect x="12" y="6" width="6" height="4"/><rect x="20" y="6" width="6" height="4"/><rect x="28" y="6" width="6" height="4"/>
-            <rect x="0" y="12" width="6" height="4"/><rect x="8" y="12" width="6" height="4"/><rect x="16" y="12" width="6" height="4"/><rect x="24" y="12" width="6" height="4"/>
-            <rect x="4" y="18" width="6" height="4"/><rect x="12" y="18" width="6" height="4"/><rect x="20" y="18" width="6" height="4"/><rect x="28" y="18" width="6" height="4"/>
-          </svg>
-        </div>
+        <span>FUTURE</span>
       </h1>
-      <div class="bracket b-bl"></div>
-      <a href="#shop" class="btn btn-glass">
-        <span>SHOP NOW</span>
-        <span>↗</span>
-      </a>
-    </div>
-
-    <div class="hero-right-card">
-      <div class="bracket b-tl"></div>
-      <div class="bracket b-tr"></div>
-      <div class="bracket b-bl"></div>
-      <div class="bracket b-br"></div>
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.3">
-        <circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4" ry="10"/><path d="M2 12h20"/><path d="M4.5 7h15"/><path d="M4.5 17h15"/>
-      </svg>
-      <div class="hero-card-text">
-        <div>BEYOND TRENDS.</div>
-        <div>BUILT FOR TOMORROW.</div>
-      </div>
+      <a href="#shop" class="btn">SHOP NOW ↗</a>
     </div>
   </section>
 
-  <!-- STRIP -->
-  <div class="strip">
-    <div class="container strip-inner">
-      <span>01 / Cyber-Couture Engineering</span>
-      <span>02 / Limited Edition Drops</span>
-      <span>03 / Worldwide Express Shipping</span>
-    </div>
-  </div>
-
-  <!-- SHOP / FEATURED COLLECTION -->
+  <!-- SHOP -->
   <section id="shop" class="section">
     <div class="container">
-      <div class="reveal">
-        <p class="eyebrow">01 / Season 2026 Drop</p>
-        <h2>FEATURED PIECES.</h2>
-        <p class="lead">Architectural silhouettes, liquid-chrome textiles, and adaptive outerwear engineered for the next era of fashion.</p>
-      </div>
+      <p style="font-size:11px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">01 / Season Drop</p>
+      <h2 style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(28px,4vw,45px);margin-bottom:16px">FEATURED PIECES.</h2>
+      <p style="color:var(--muted);font-size:15px;max-width:500px;margin-bottom:30px">Architectural silhouettes and liquid-chrome textiles engineered for tomorrow.</p>
       <div class="products-grid" id="productsGrid"></div>
     </div>
   </section>
-
-  <!-- EDITORIAL BANNER -->
-  <section id="collections" class="editorial-banner">
-    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1600&q=80" alt="Editorial Lookbook">
-    <div class="editorial-content reveal">
-      <p class="eyebrow" style="color:#fff">02 / Capsule 04</p>
-      <h2>CHROME & CONCRETE.</h2>
-      <p class="lead" style="color:#ddd;margin:0 auto 28px">Inspired by brutalist geometry and metallic reflections. Designed to stand apart in every dimension.</p>
-      <a href="#shop" class="btn btn-glass">Explore Capsule ↗</a>
-    </div>
-  </section>
-
-  <!-- PHILOSOPHY / ABOUT -->
-  <section id="philosophy" class="section panel-section">
-    <div class="container about-grid">
-      <div class="about-img reveal">
-        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1000&q=80" alt="Callisto Atelier">
-        <div class="stamp"><strong>CALLISTO˚</strong>FUTURE ATELIER</div>
-      </div>
-      <div class="reveal">
-        <p class="eyebrow">03 / Brand Philosophy</p>
-        <h2>DESIGNED BEYOND TIME.</h2>
-        <p class="lead" style="margin-bottom:20px">CALLISTO merges high-fashion tailoring with futuristic industrial materials. Every seam, visor, and metallic contour is crafted with uncompromising precision.</p>
-        <p class="lead" style="margin-bottom:30px">We don't follow seasonal cycles—we build wearable artifacts for tomorrow's pioneers.</p>
-        <a href="#contact" class="btn btn-dark">Private Styling & Inquiries ↗</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="section">
-    <div class="container contact-grid">
-      <div class="reveal">
-        <p class="eyebrow">04 / Client Concierge</p>
-        <h2>CONNECT WITH CALLISTO.</h2>
-        <p class="lead" style="margin-bottom:28px">Questions regarding sizing, bespoke orders, or press pulls? Our studio team responds within 24 hours.</p>
-        <p style="font-size:14px;line-height:2">
-          <strong>Studio Flagship:</strong> Yerevan / Milan<br>
-          <strong>Direct Email:</strong> studio@callisto-fashion.com<br>
-          <strong>Hours:</strong> Mon – Sat, 10:00 – 20:00
-        </p>
-      </div>
-      <form class="reveal" id="contactForm" style="background:var(--panel);padding:36px;border:1px solid var(--line)">
-        <div class="field-group">
-          <label>Full Name *</label>
-          <input type="text" class="field" required placeholder="Your name">
-        </div>
-        <div class="field-group">
-          <label>Email Address *</label>
-          <input type="email" class="field" required placeholder="you@domain.com">
-        </div>
-        <div class="field-group">
-          <label>Message *</label>
-          <textarea class="field" rows="4" required placeholder="How can we assist you?"></textarea>
-        </div>
-        <button type="submit" class="btn btn-dark btn-full">Send Inquiry ↗</button>
-        <p id="formNotice" style="margin-top:14px;font-size:13px;color:green;display:none">Thank you. Your inquiry has been received by CALLISTO Studio.</p>
-      </form>
-    </div>
-  </section>
-
 </main>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="brand" style="color:#fff;margin-bottom:16px">CALLISTO<span>˚</span></div>
-        <p>Beyond trends. Built for tomorrow. Avant-garde outerwear and futuristic fashion essentials.</p>
-      </div>
-      <div>
-        <h4>Navigation</h4>
-        <div class="footer-links">
-          <a href="#home">Home</a>
-          <a href="#shop">Shop Collection</a>
-          <a href="#collections">Lookbook</a>
-          <a href="#philosophy">Philosophy</a>
-        </div>
-      </div>
-      <div>
-        <h4>Client Care</h4>
-        <div class="footer-links">
-          <a href="#contact">Contact Studio</a>
-          <a href="#shop">Shipping & Returns</a>
-          <a href="#shop">Size Guide</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 CALLISTO˚. All Rights Reserved.</span>
-      <span>Crafted by Monoframe</span>
-    </div>
-  </div>
-</footer>
 
 <!-- CART DRAWER -->
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 <aside class="drawer" id="cartDrawer">
   <div class="drawer-header">
-    <strong style="font-family:'Orbitron';letter-spacing:0.12em">YOUR BAG</strong>
-    <button type="button" id="closeBagBtn" style="background:none;border:0;font-size:22px">×</button>
+    <strong>YOUR BAG</strong>
+    <button type="button" id="closeBagBtn" style="background:none;border:0;font-size:22px;cursor:pointer">×</button>
   </div>
   <div class="drawer-items" id="cartItems"></div>
   <div style="border-top:1px solid var(--line);padding-top:18px">
-    <div style="display:flex;justify-content:space-between;margin-bottom:16px;font-weight:700">
+    <div style="display:flex;justify-content:space-between;margin-bottom:16px;font-family:'Orbitron',sans-serif;font-weight:700">
       <span>TOTAL</span>
       <span id="cartTotal">$0</span>
     </div>
-    <button type="button" id="checkoutBtn" class="btn btn-dark btn-full">Proceed to Checkout ↗</button>
+    <button type="button" id="checkoutBtn" class="btn btn-dark" onclick="alert('Order placed successfully!')">Checkout ↗</button>
   </div>
 </aside>
 
 <script>
 const products = [
-  {
-    id: 1,
-    title: "AERO-CHROME BODYSUIT",
-    price: 480,
-    tag: "LIMITED DROP",
-    desc: "Sculpted liquid-silver metallic shell with breathable white technical panels.",
-    img: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 2,
-    title: "CYBER-VISOR MK.IV",
-    price: 290,
-    tag: "BESTSELLER",
-    desc: "Iridescent blue-tint shield lens framed in CNC-milled chrome alloy.",
-    img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 3,
-    title: "MONOLITH PUFFER JACKET",
-    price: 620,
-    tag: "NEW ARRIVAL",
-    desc: "Architectural cropped silhouette in weatherproof reflective silver nylon.",
-    img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 4,
-    title: "ORBITAL COMBAT BOOTS",
-    price: 410,
-    tag: "RUNWAY",
-    desc: "High-shine metallic armor plating over ultra-lightweight shock soles.",
-    img: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 5,
-    title: "VECTOR TECH TROUSERS",
-    price: 340,
-    tag: "CORE",
-    desc: "Articulated knee paneling with concealed magnetic hardware.",
-    img: "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 6,
-    title: "SOLARIS METALLIC TRENCH",
-    price: 750,
-    tag: "EXCLUSIVE",
-    desc: "Full-length statement coat engineered with thermo-reactive silver weave.",
-    img: "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?auto=format&fit=crop&w=800&q=80"
-  }
+  { id: 1, title: "AERO-CHROME BODYSUIT", price: 480, tag: "LIMITED DROP", desc: "Sculpted liquid-silver metallic shell.", img: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=80" },
+  { id: 2, title: "CYBER-VISOR MK.IV", price: 290, tag: "BESTSELLER", desc: "Iridescent blue-tint shield lens.", img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80" },
+  { id: 3, title: "MONOLITH PUFFER", price: 620, tag: "NEW", desc: "Architectural cropped reflective silver nylon.", img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=80" }
 ];
 
 let cart = [];
-
 function renderProducts() {
-  const grid = document.getElementById("productsGrid");
-  grid.innerHTML = products.map(p => `
-    <article class="product-card reveal">
-      <div class="product-img-wrap">
-        <span class="tag-badge">${p.tag}</span>
-        <img src="${p.img}" alt="${p.title}" loading="lazy">
-      </div>
+  document.getElementById("productsGrid").innerHTML = products.map(p => `
+    <article class="product-card">
+      <div class="product-img-wrap"><span class="tag-badge">${p.tag}</span><img src="${p.img}" alt="${p.title}"></div>
       <div class="product-info">
-        <div class="product-top">
-          <h3>${p.title}</h3>
-          <span class="price">$${p.price}</span>
-        </div>
+        <div class="product-top"><h3>${p.title}</h3><span class="price">$${p.price}</span></div>
         <p class="product-desc">${p.desc}</p>
-        <button type="button" class="btn btn-dark btn-full" onclick="addToCart(${p.id})">Add to Bag +</button>
+        <button class="btn btn-dark" onclick="addToCart(${p.id})">Add to Bag +</button>
       </div>
     </article>
   `).join("");
 }
 
 function addToCart(id) {
-  const item = products.find(p => p.id === id);
-  if (item) {
-    cart.push(item);
-    updateCartUI();
-    openDrawer();
-  }
-}
-
-function removeFromCart(index) {
-  cart.splice(index, 1);
+  cart.push(products.find(p => p.id === id));
   updateCartUI();
+  document.getElementById("cartDrawer").classList.add("open");
+  document.getElementById("drawerBackdrop").classList.add("open");
 }
 
 function updateCartUI() {
   document.getElementById("bagCount").textContent = cart.length;
-  const itemsEl = document.getElementById("cartItems");
-  const totalEl = document.getElementById("cartTotal");
-
-  if (cart.length === 0) {
-    itemsEl.innerHTML = `<p style="color:var(--muted);font-size:13px">Your shopping bag is currently empty.</p>`;
-    totalEl.textContent = "$0";
-    return;
-  }
-
   let sum = 0;
-  itemsEl.innerHTML = cart.map((item, idx) => {
+  document.getElementById("cartItems").innerHTML = cart.length === 0 ? '<p style="color:var(--muted);font-size:13px">Your bag is empty.</p>' : cart.map((item, idx) => {
     sum += item.price;
-    return `
-      <div class="cart-item">
-        <div>
-          <div style="font-weight:700">${item.title}</div>
-          <div style="color:var(--muted)">$${item.price}</div>
-        </div>
-        <button type="button" onclick="removeFromCart(${idx})" style="background:none;border:0;color:#999;font-size:12px">Remove</button>
-      </div>
-    `;
+    return `<div class="cart-item"><div><strong>${item.title}</strong><br>$${item.price}</div><button onclick="cart.splice(${idx},1);updateCartUI()" style="background:none;border:0;color:red;cursor:pointer">Remove</button></div>`;
   }).join("");
-  totalEl.textContent = "$" + sum;
+  document.getElementById("cartTotal").textContent = "$" + sum;
 }
 
-const drawer = document.getElementById("cartDrawer");
-const backdrop = document.getElementById("drawerBackdrop");
-function openDrawer() { drawer.classList.add("open"); backdrop.classList.add("open"); }
-function closeDrawer() { drawer.classList.remove("open"); backdrop.classList.remove("open"); }
-
-document.getElementById("openBagBtn").addEventListener("click", openDrawer);
-document.getElementById("closeBagBtn").addEventListener("click", closeDrawer);
-backdrop.addEventListener("click", closeDrawer);
-
-document.getElementById("checkoutBtn").addEventListener("click", () => {
-  if (cart.length === 0) return;
-  alert("Thank you for shopping with CALLISTO˚! Your order is being processed.");
-  cart = [];
-  updateCartUI();
-  closeDrawer();
-});
-
-document.getElementById("contactForm").addEventListener("submit", e => {
-  e.preventDefault();
-  document.getElementById("formNotice").style.display = "block";
-  e.target.reset();
-});
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-
+document.getElementById("openBagBtn").onclick = () => { document.getElementById("cartDrawer").classList.add("open"); document.getElementById("drawerBackdrop").classList.add("open"); };
+document.getElementById("closeBagBtn").onclick = document.getElementById("drawerBackdrop").onclick = () => { document.getElementById("cartDrawer").classList.remove("open"); document.getElementById("drawerBackdrop").classList.remove("open"); };
 renderProducts();
-updateCartUI();
-document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
